@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>THE 5K LEGACY WALL</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+
+<header>
+    <div class="top-bar">
+        <div class="payment-group">
+            <button class="pay-btn binance" onclick="copyVal('912221034')">BINANCE ID: 912221034</button>
+            <button class="pay-btn usdt" onclick="copyVal('TTapBkTqrDnzHbWzek6wSBUTcJKFmR8Ws6')">USDT (TRC20)</button>
+        </div>
+        <div class="social-icons">
+            <a href="https://instagram.com/the10klegacywall" target="_blank" class="ig-ico"><i class="fab fa-instagram"></i></a>
+            <a href="https://twitter.com/the10klegacywall" target="_blank" class="tw-ico"><i class="fab fa-twitter"></i></a>
+            <a href="https://youtube.com/@the10klegacywall" target="_blank" class="yt-ico"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+    
+    <div class="hero">
+        <h1 class="glow-title">THE 5K LEGACY WALL</h1>
+        
+        <div class="top-actions">
+            <a href="order.html" class="buy-btn-top">OWN A PIECE OF LEGACY ($20)</a>
+            <div class="noti-check">
+                <input type="text" id="trackID" placeholder="Enter Order ID to check Status">
+                <button onclick="checkStatus()"><i class="fas fa-bell"></i> CHECK</button>
+            </div>
+        </div>
+
+        <div class="search-box">
+            <input type="number" id="searchInput" placeholder="Search Plot (1-5000)" onkeyup="if(event.key==='Enter') searchPlot()">
+            <button onclick="searchPlot()"><i class="fas fa-search"></i> SEARCH</button>
+        </div>
+        
+        <div class="stats">TOTAL: 5,000 | SOLD: <span id="sold-count">0</span> | REMAINING: <span id="rem-count">5,000</span></div>
+    </div>
+</header>
+
+<div class="map-container">
+    <div id="viewport">
+        <div id="mover"><canvas id="mainCanvas"></canvas></div>
+    </div>
+</div>
+
+<footer>
+    <p class="copy">The10KLegacyWall © 2026 KAWSAR</p>
+</footer>
+
+<a href="support.html" target="_blank" class="support-btn">
+    <i class="fab fa-whatsapp"></i> CUSTOMER SUPPORT
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>
