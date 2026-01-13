@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:sans-serif; padding:20px;">
+    <h1>CEO ADMIN - 5K WALL</h1>
+    <div id="list"></div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://m-legacy-5cf2b-default-rtdb.firebaseio.com/"});
+        const db = firebase.database();
+        
+        db.ref('orders').on('value', s => {
+            const list = document.getElementById('list'); list.innerHTML = "";
+            const data = s.val(); if(!data) return;
+            Object.keys(data).forEach(id => {
+                list.innerHTML += `<div style="border:2px solid #000; padding:15px; margin-bottom:15px;">
+                    <b>Order ID: ${id}</b> | Brand: ${data[id].name} (Plot: ${data[id].plotID})<br><br>
+                    <input type="text" id="img_${id}" placeholder="Image URL (Logo)"><br>
+                    <textarea id="msg_${id}" placeholder="Message for Customer" style="width:100%; margin-top:5px;"></textarea><br>
+                    <button onclick="approve('${id}', '${data[id].name}', ${data[id].plotID})" style="background:green; color:white;">APPROVE</button>
+                    <button onclick="reject('${id}')" style="background:red; color:white;">REJECT</button>
+                </div>`;
+            });
+        });
+
+        function approve(id, name, pID) {
+            const img = document.getElementById('img_'+id).value;
+            const msg = document.getElementById('msg_'+id).value || "Congrats! Your plot is live.";
+            if(!img) return alert("Provide Image URL!");
+            const x = ((pID-1)%50)*60, y = Math.floor((pID-1)/50)*40;
+            db.ref('pixels/'+id).set({name, imageUrl:img, x, y, plotID:pID}).then(() => {
+                db.ref('notifications/'+id).set({status: "Approved 🎉", message: msg});
+                db.ref('orders/'+id).remove();
+            });
+        }
+
+        function reject(id) {
+            const msg = document.getElementById('msg_'+id).value;
+            if(!msg) return alert("Write rejection reason!");
+            db.ref('notifications/'+id).set({status: "Rejected ❌", message: msg}).then(() => {
+                db.ref('orders/'+id).remove();
+            });
+        }
+    </script>
+</body>
+</html>
