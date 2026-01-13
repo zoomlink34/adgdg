@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body style="font-family:sans-serif; text-align:center; padding-top:100px;">
+    <div style="width:300px; margin:auto; padding:30px; border:2px solid #000; border-radius:15px;">
+        <h2>RESERVE PLOT</h2>
+        <input type="text" id="bn" placeholder="Brand Name" style="width:90%; padding:10px; margin:10px 0;"><br>
+        <input type="number" id="pid" placeholder="Plot ID (1-5000)" style="width:90%; padding:10px; margin:10px 0;"><br>
+        <button onclick="order()" style="width:100%; padding:15px; background:#ef4444; color:white; border:none; border-radius:10px; font-weight:bold;">SUBMIT</button>
+        <p id="oid" style="font-weight:bold; color:blue; margin-top:20px;"></p>
+        <a href="index.html">← Back</a>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <script>
+        firebase.initializeApp({databaseURL: "https://m-legacy-5cf2b-default-rtdb.firebaseio.com/"});
+        function order() {
+            const n=document.getElementById('bn').value, p=document.getElementById('pid').value;
+            const id="ORD"+Math.floor(Math.random()*99999);
+            if(!n || !p) return alert("Fill all!");
+            firebase.database().ref('orders/'+id).set({name:n, plotID:p}).then(()=>{
+                document.getElementById('oid').innerText = "YOUR ORDER ID: "+id;
+                alert("Order Placed! Save your ID: "+id);
+            });
+        }
+    </script>
+</body>
+</html>
